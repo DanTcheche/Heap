@@ -102,7 +102,27 @@ bool heap_esta_vacio(const heap_t *heap){
 bool heap_encolar(heap_t *heap, void* elem){
 	if(*elem == NULL) return false;
 	heap->elementos[cantidad] = elem;
+	upheap(heap->elementos, heap->cantidad, heap->cmp)
 	if (factor_de_carga(heap)>CARGA_MAX){
 		if(!heap_redimensionar(heap, tam*FACT_REDIM)) return false;
 	} 
+	heap->cantidad++
 	return true;
+}
+
+void* heap_ver_max(const heap_t *heap){
+	if(heap->cantidad == 0) return NULL;
+	return heap->elementos[0];
+}
+
+void* heap_desencolar(heap_t *heap){
+	if(heap_esta_vacio(heap)) return NULL;
+	void* aux = heap->elementos[0];
+	swap(heap->elementos[0], heap->elementos[(heap->cantidad)-1])
+	downheap(heap->elementos, heap->cantidad, heap->elementos[0], heap->cmp)
+	heap->cantidad--;
+	if (factor_de_carga(heap)<CARGA_MIN){
+		if(!heap_redimensionar(heap, tam/FACT_REDIM)) return NULL;
+	} 
+	return aux;
+}
