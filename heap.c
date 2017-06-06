@@ -10,13 +10,36 @@
 typedef struct heap{
 	void* elementos[];
 	size_t cantidad;
+	size_t tam;
 	cmp_func_t cmp;
 }heap_t;
 
-void swap(void* x, void* y){
-	void* aux = *x;
-	*x = *y;
-	*y = aux;
+void swap(void** x, void** y){
+	void** aux = x;
+	x = y;
+	y = aux;
+}
+
+void upheap(void* elementos[], size_t posicion, cmp_func_t cmp){
+	if(posicion == 0) return;
+	padre = (posicion-1)/2;
+	if(cmp(elementos[padre], elementos[posicion]) < 0){
+		swap(&elementos[padre], &elementos[posicion]);
+		upheap(elementos, padre, cmp);
+	}
+}
+
+void downheap(void* elementos[], size_t tam, size_t posicion, cmp_func_t cmp){
+	if(posicion>tam) return;
+	size_t max = pos;
+	size_t hijo_izq = posicion*2+1;
+	size_t hijo_der = posicion*2+2;
+	if(hijo_izq < n && cmp(elementos[hijo_izq], elementos[max]) > 0) max = hijo_izq;
+	if(hijo_der < n && cmp(elementos[hijo_der], elementos[max]) > 0) max = hijo_der;
+	if(max != pos){
+		swap(&arreglo[max], &arreglo[pos]);
+		downheap(elementos, tam, max, cmp)
+	}
 }
 
 float factor_de_carga(heap_t* heap){
@@ -34,7 +57,9 @@ bool heap_redimensionar(heap, tam_nuevo){
 heap_t* heap_crear(cmp_func_t cmp){
 	heap_t heap = malloc(sizeof(heap_t));
 	if(!heap) return NULL;
-	heap->elementos = malloc(sizeof(void*)*TAM_INI);
+	heap->elementos = malloc(sizeof(vo
+
+		void uphid*)*TAM_INI);
 	if(!heap->elementos) return NULL;
 	heap->cmp = cmp;
 	heap->cantidad = 0;
@@ -43,8 +68,8 @@ heap_t* heap_crear(cmp_func_t cmp){
 
 void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp){
 	for(int i = (cant-1); i>1, i--){
-		swap(elementos[0], elementos[i]);
-		downheap(elementos[0], cmp);
+		swap(&elementos[0], &elementos[i]); 
+		downheap(elementos, cant, elementos[0], cmp);
 	}
 }
 
