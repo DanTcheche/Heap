@@ -16,17 +16,17 @@ typedef struct heap{
 
 //			FUNCIONES AUXILIARES
 
-void swap(void** x, void** y){
-	void** aux = x;
-	x = y;
-	y = aux;
+void swap(void* elementos[], int pos1, int pos2){
+	void* aux = elementos[pos1];
+	elementos[pos1] = elementos[pos2];
+	elementos[pos2] = aux;
 }
 
 void upheap(void* elementos[], size_t posicion, cmp_func_t cmp){
 	if(posicion == 0) return;
 	int padre = (posicion-1)/2;
 	if(cmp(elementos[padre], elementos[posicion]) < 0){
-		swap(&elementos[padre], &elementos[posicion]);
+		swap(elementos, padre, posicion);
 		upheap(elementos, padre, cmp);
 	}
 }
@@ -39,7 +39,7 @@ void downheap(void* elementos[], size_t tam, size_t posicion, cmp_func_t cmp){
 	if(hijo_izq < tam && cmp(elementos[hijo_izq], elementos[max]) > 0) max = hijo_izq;
 	if(hijo_der < tam && cmp(elementos[hijo_der], elementos[max]) > 0) max = hijo_der;
 	if(max != posicion){
-		swap(&elementos[max], &elementos[posicion]);
+		swap(elementos, max, posicion);
 		downheap(elementos, tam, max, cmp);
 	}
 }
@@ -80,7 +80,7 @@ heap_t* heap_crear(cmp_func_t cmp){
 
 void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp){
 	for(int i = (cant-1); i>1; i--){
-		swap(&elementos[0], &elementos[i]); 
+		swap(elementos, 0, i); 
 		downheap(elementos, cant, 0, cmp);
 	}
 }
@@ -132,10 +132,10 @@ void* heap_ver_max(const heap_t *heap){
 void* heap_desencolar(heap_t *heap){
 	if(heap_esta_vacio(heap)) return NULL;
 	void* aux = heap->elementos[0];
-	swap(heap->elementos[0], heap->elementos[(heap->cantidad)-1]);
+	swap(heap->elementos, 0, heap->cantidad-1);
 	downheap(heap->elementos, heap->cantidad, 0, heap->cmp);
 	heap->cantidad--;
-	if (factor_de_carga(heap)<CARGA_MIN){
+	if (factor_de_carga(heap)<CARGA_MIN && heap->tam>TAM_INI){
 		if(!heap_redimensionar(heap, (heap->tam)/FACT_REDIM)) return NULL;
 	} 
 	return aux;
