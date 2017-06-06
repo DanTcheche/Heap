@@ -42,6 +42,12 @@ void downheap(void* elementos[], size_t tam, size_t posicion, cmp_func_t cmp){
 	}
 }
 
+void heapify(void* elementos[], size_t cant, cmp_func_t cmp){
+	for(int i = (cant-1); i >= 0; i--){
+		downheap(elementos, cant, elementos[i], cmp);
+	}
+}
+
 float factor_de_carga(heap_t* heap){
 	return (float)(heap->cantidad)/(float)(heap->tam);
 }
@@ -57,9 +63,7 @@ bool heap_redimensionar(heap, tam_nuevo){
 heap_t* heap_crear(cmp_func_t cmp){
 	heap_t heap = malloc(sizeof(heap_t));
 	if(!heap) return NULL;
-	heap->elementos = malloc(sizeof(vo
-
-		void uphid*)*TAM_INI);
+	heap->elementos = malloc(sizeof(void*)*TAM_INI);
 	if(!heap->elementos) return NULL;
 	heap->cmp = cmp;
 	heap->cantidad = 0;
