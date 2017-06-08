@@ -53,6 +53,7 @@ static void prueba_heap_pocos_elementos(){
 
 	heap_t* heap = heap_crear(cmp);
 	print_test("Prueba heap encolar un elemento", heap_encolar(heap, &a));
+	print_test("Prueba heap_ver_max es 1", (heap_ver_max(heap) == &a));
 	print_test("Prueba heap encolar un elemento", heap_encolar(heap, &c));
 	print_test("Prueba heap_ver_max es 3", (heap_ver_max(heap) == &c));
 	print_test("Prueba heap encolar un elemento", heap_encolar(heap, &b));
@@ -61,6 +62,8 @@ static void prueba_heap_pocos_elementos(){
 	print_test("Prueba heap_ver_max es 2", (heap_ver_max(heap) == &b));
 	print_test("Prueba heap la cantidad de elementos es 2", heap_cantidad(heap) == 2);
 	print_test("Prueba heap esta vacio es false", !heap_esta_vacio(heap));
+	print_test("Prueba heap desencolar es 2", (heap_desencolar(heap) == &b));
+	print_test("Prueba heap_ver_max es 1", (heap_ver_max(heap) == &a));
 
 
 	heap_destruir(heap, NULL);
