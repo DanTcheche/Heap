@@ -60,7 +60,6 @@ bool heap_redimensionar(heap_t* heap, size_t tam_nuevo){
 	if(!elementos_nuevo) return false;
 	heap->elementos = elementos_nuevo;
 	heap->tam = tam_nuevo;
-	free(elementos_aux);
 	return true;
 }
 
