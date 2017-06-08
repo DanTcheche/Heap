@@ -86,7 +86,7 @@ static void prueba_de_volumen(){
 	for (int u = 0; u < heap_cantidad(heap); u++){
 		int* a = heap_desencolar(heap);
 		int* b = heap_desencolar(heap);
-		ok &= (*a>*b);
+		ok &= (*a>=*b);
 	}
 	print_test("Los elementos se ordenaron correctamente", ok);
 
@@ -98,6 +98,23 @@ static void prueba_de_volumen(){
 
 }
 
+static void prueba_heapify_heapsort(){
+	bool ok = true;
+	int** elementos = crear_array_elementos_aleatorios();
+	heap_sort((void**)elementos, ELEM_VOL, cmp);
+	for (int i = 0; i < ELEM_VOL-1; i++){
+		int* a = elementos[i];
+		int* b = elementos[i+1];
+		ok &= (*a<=*b);
+	}
+	print_test("Los elementos se ordenaron correctamente", ok);
+	
+	for(int i = 0; i < ELEM_VOL; i++){
+		free(elementos[i]);
+	}
+	free(elementos);
+}
+
 
 
 void pruebas_heap_alumno()
@@ -106,4 +123,5 @@ void pruebas_heap_alumno()
     prueba_crear_heap_vacio();
     prueba_heap_pocos_elementos();
     prueba_de_volumen();
+    prueba_heapify_heapsort();
 }

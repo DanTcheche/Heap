@@ -78,9 +78,10 @@ heap_t* heap_crear(cmp_func_t cmp){
 }
 
 void heap_sort(void *elementos[], size_t cant, cmp_func_t cmp){
-	for(int i = (cant-1); i>1; i--){
+	heapify(elementos, cant, cmp);
+	for(int i = (cant-1); i >= 0; i--){
 		swap(elementos, 0, i); 
-		downheap(elementos, cant, 0, cmp);
+		downheap(elementos, i, 0, cmp);
 	}
 }
 
